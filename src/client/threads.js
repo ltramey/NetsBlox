@@ -244,11 +244,27 @@ NetsProcess.prototype.getJSFromRPCStruct = function (rpc, methodSignature) {
     var action = methodSignature[0],
         argNames = methodSignature[1],
         values = Array.prototype.slice.call(arguments, 2, argNames.length + 2),
+        ide = this.homeContext.receiver.parentThatIsA(IDE_Morph),
+        serializer = ide.serializer,
+        isSavingHistory = serializer.isSavingHistory,
+        value,
         params;
 
+    serializer.isSavingHistory = false;
+    serializer.flush();
     params = argNames.map(function(name, index) {
-        return name + '=' + values[index];
+        value = values[index];
+
+        if (typeof value === 'object' && value.toXML) {
+            console.log(value);
+            value = serializer.store(value);
+        }
+
+        return name + '=' + encodeURIComponent(value);
     }).join('&');
+
+    serializer.isSavingHistory = isSavingHistory;
+
     return this.getJSFromRPCDropdown(rpc, action, params);
 };
 
