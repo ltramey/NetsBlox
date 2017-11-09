@@ -13,7 +13,7 @@ var counter = 0,
         'MediaSize',
         'RoomUuid'
     ],
-    R = require('ramda'),
+    _ = require('lodash'),
     Utils = require('../server-utils'),
     assert = require('assert'),
     UserActions = require('../storage/user-actions'),
@@ -26,7 +26,7 @@ const REQUEST_TIMEOUT = 10*60*1000;  // 10 minutes
 const HEARTBEAT_INTERVAL = 55*1000;  // 55 seconds
 
 var createSaveableProject = function(json) {
-    var project = R.pick(PROJECT_FIELDS, json);
+    var project = _.pick(json, PROJECT_FIELDS);
     // Set defaults
     project.Public = false;
     project.Updated = new Date();

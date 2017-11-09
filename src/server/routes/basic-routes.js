@@ -1,6 +1,5 @@
 'use strict';
-var R = require('ramda'),
-    _ = require('lodash'),
+var _ = require('lodash'),
     Q = require('q'),
     Utils = _.extend(require('../utils'), require('../server-utils.js')),
     exists = require('exists-file'),
@@ -12,8 +11,7 @@ var R = require('ramda'),
         .concat(ProjectAPI)
         .concat(RoomAPI)
         .filter(api => api.Service)
-        .map(R.omit.bind(R, 'Handler'))
-        .map(R.omit.bind(R, 'middleware')),
+        .map(api => _.omit(api, ['Handler','middleware'])),
 
     debug = require('debug'),
     log = debug('netsblox:api:log'),

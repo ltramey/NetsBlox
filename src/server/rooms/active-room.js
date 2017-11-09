@@ -3,7 +3,7 @@
 
 'use strict';
 
-var R = require('ramda'),
+var _ = require('lodash'),
     Q = require('q'),
     utils = require('../server-utils'),
     Users = require('../storage/users'),
@@ -250,7 +250,7 @@ class ActiveRoom {
     }
 
     sockets () {
-        return R.values(this.roles)
+        return _.values(this.roles)
             .reduce((l1, l2) => l1.concat(l2), []);
     }
 
